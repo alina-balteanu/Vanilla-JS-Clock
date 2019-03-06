@@ -1,0 +1,234 @@
+$color-lightest-gray: #f0f0f0;
+$color-light-gray: #cecece;
+$color-medium-gray: #adadad;
+$color-dark-gray: #414141;
+$color-white: #fff;
+$color-black: #000;
+$color-dark-purple: #1f2029;
+$belt-highlight: #050404;
+
+@mixin black-hands() {
+  background-image: linear-gradient(
+    -10deg,
+    $color-dark-gray 0%,
+    $color-black 50%
+  );
+  border-bottom-right-radius: 40%;
+  border-bottom-left-radius: 40%;
+}
+@mixin rounded-hands() {
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+@mixin hands-gradient() {
+  background-image: linear-gradient(
+    -70deg,
+    $color-white 15%,
+    rgba($color-black, 1) 100%
+  );
+  box-shadow: inset 0 2px 5px $color-dark-gray, -1px 0 5px $color-black;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background: lighten($color-dark-purple, 3);
+  z-index: -99;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+main {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.wrapper {
+  &:after,
+  &:before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 100vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+  }
+  &:after {
+    background: $belt-highlight;
+    background: linear-gradient(
+      162deg,
+      $belt-highlight 6%,
+      $color-black 50%,
+      $belt-highlight 100%
+    );
+    box-shadow: inset 2px 3px 25px lighten($color-black, 15),
+      inset -2px 3px 10px lighten($color-black, 15);
+  }
+  &:before {
+    width: 6px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    background: repeating-linear-gradient(
+      to bottom,
+      lighten($color-black, 15),
+      lighten($color-black, 15) 6px,
+      transparent 6px,
+      transparent 60px
+    );
+    z-index: 5;
+  }
+}
+
+.clock {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(
+    -15deg,
+    lighten($color-black, 4) 35%,
+    $color-lightest-gray 100%
+  );
+  box-shadow: inset 0 2px 20px $color-dark-gray;
+  position: relative;
+  z-index: 100;
+}
+
+.time {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #3c3c3c;
+  background: linear-gradient(
+    162deg,
+    #3c3c3c 10%,
+    $color-black 68%,
+    $color-black 100%
+  );
+  box-shadow: inset 0 -2px 4px $color-light-gray, inset 0 1px 15px $color-black;
+  position: relative;
+
+  .hand {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, 0, 0) rotate(180deg);
+    transform-origin: 50% 0;
+
+    &.seconds {
+      height: 90px;
+      width: 2px;
+      background-image: linear-gradient(
+        40deg,
+        $color-lightest-gray 35%,
+        $color-medium-gray 100%
+      );
+      box-shadow: -1px 0 1px rgba($color-white, 0.7) inset,
+        1px 0 1px rgba($color-medium-gray, 0.8) inset;
+      @include rounded-hands;
+
+      &:after {
+        position: absolute;
+        content: "";
+        background-image: linear-gradient(
+          -10deg,
+          $color-black 35%,
+          $color-dark-gray 100%
+        );
+        box-shadow: 1px 0 3px rgba($color-medium-gray, 0.8) inset,
+          -1px 0 3px rgba($color-white, 0.7) inset;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        top: 0;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+      }
+    }
+    &.minutes {
+      height: 80px;
+      width: 6px;
+      @include hands-gradient;
+      @include rounded-hands;
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 3px;
+        height: 60px;
+        top: 15%;
+        left: 0;
+        transform: translate3d(50%, -15%, 0);
+        @include black-hands;
+      }
+    }
+    &.hours {
+      height: 60px;
+      width: 8px;
+      @include hands-gradient;
+      @include rounded-hands;
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 4px;
+        height: 35px;
+        top: 15%;
+        left: 0;
+        transform: translate3d(50%, -15%, 0);
+        @include black-hands;
+      }
+    }
+  }
+}
+
+.hour-line {
+  width: 7px;
+  height: 2px;
+  position: absolute;
+  background: $color-white;
+  display: inline-block;
+  border-radius: 50%;
+
+  &:nth-child(1) {
+    top: 12px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  &:nth-child(2) {
+    top: 50%;
+    right: 12px;
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+  &:nth-child(3) {
+    bottom: 12px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(270deg);
+  }
+  &:nth-child(4) {
+    top: 50%;
+    left: 12px;
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
